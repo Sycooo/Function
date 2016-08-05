@@ -7,13 +7,42 @@
 //
 
 #import "AppDelegate.h"
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+
 
 @interface AppDelegate ()
-
+{
+    
+}
 @end
 
 @implementation AppDelegate
 
+#warning 检测屏幕触摸事件
+/*
+ 1.修改AppDelegate   不再继承于UIResponder  而是继承于 UIApplication
+ 2.修改man.m中的UIApplicationMain()参数
+ 3.在AppDelegate重写父类UIApplication的 - (void)sendEvent:(UIEvent *)event 方法
+ */
+- (void)sendEvent:(UIEvent *)event
+{
+    [super sendEvent:event];
+    
+    NSSet *allTouches = [event allTouches];
+    
+    if ([allTouches count] > 0) {
+        
+        UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
+        if (phase == UITouchPhaseBegan) {
+            
+            NSLog(@"touch began");
+        }else if (phase == UITouchPhaseEnded) {
+            
+            NSLog(@"touch end");
+        }
+        
+    }
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
